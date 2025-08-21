@@ -1,0 +1,66 @@
+syntax = "proto3";
+
+
+// Name space definition
+package tips.auth;
+
+
+message MsgHeaderObjType {
+  uint32 message_type   = 1;
+  uint32 message_id     = 2;
+  uint32 message_length = 3;
+}
+
+message AuthHeaderType {
+  TipsMsgHeaderObjType msg_hdr = 1;
+  uint32 session_id            = 2;
+  uint32 reserved              = 3;
+}
+
+// -------------------- Top-Level Auth Message --------------------
+message AuthMessage {
+  uint32 header = 1;
+  TipsAuthPeriphObj periphObj = 2;
+  uint32 crc = 3;
+}
+
+// -------------------- Peripheral Object --------------------
+message AuthPeriphObj {
+  oneof tx_msg_buf {
+    TipsRound1RespMsg1of2 round1RespMsg1of2 = 1;
+    TipsRound1RespMsg2of2 round1RespMsg2of2 = 2;
+    TipsRound2RespMsg     round2RespMsg     = 3;
+    TipsKeyConfirmRespMsg keyConfirmRespMsg = 4;
+    TipsSessionKeyRespMsg sessionKeyRespMsg = 5;
+  }
+
+  uint32 messageCounter = 6;
+  uint32 appInstanceId  = 7;
+}
+
+// -------------------- Round 1 --------------------
+message Round1RespMsg1of2 {
+  bytes round1Payload = 1; // 165 bytes
+}
+
+message Round1RespMsg2of2 {
+  bytes round1Payload = 1; // 165 bytes
+}
+
+// -------------------- Round 2 --------------------
+message Round2RespMsg {
+  bytes round2Payload = 1; // 168 bytes
+}
+
+// -------------------- Key Confirm --------------------
+message KeyConfirmRespMsg {
+  bytes nonce     = 1; // corresponds to C array
+  bytes reserved  = 2; // corresponds to C array
+}
+
+// -------------------- Session Key --------------------
+message SessionKeyRespMsg {
+  bytes nonce       = 1;
+  bytes reserved    = 2;
+  bytes hashDigest  = 3;
+}
