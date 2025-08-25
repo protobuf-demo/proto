@@ -12,7 +12,7 @@ message MsgHeaderObjType {
 }
 
 message AuthHeaderType {
-  TipsMsgHeaderObjType msg_hdr = 1;
+  MsgHeaderObjType msg_hdr = 1;
   uint32 session_id            = 2;
   uint32 reserved              = 3;
 }
@@ -20,18 +20,18 @@ message AuthHeaderType {
 // -------------------- Top-Level Auth Message --------------------
 message AuthMessage {
   uint32 header = 1;
-  TipsAuthPeriphObj periphObj = 2;
+  AuthPeriphObj periphObj = 2;
   uint32 crc = 3;
 }
 
 // -------------------- Peripheral Object --------------------
 message AuthPeriphObj {
   oneof tx_msg_buf {
-    TipsRound1RespMsg1of2 round1RespMsg1of2 = 1;
-    TipsRound1RespMsg2of2 round1RespMsg2of2 = 2;
-    TipsRound2RespMsg     round2RespMsg     = 3;
-    TipsKeyConfirmRespMsg keyConfirmRespMsg = 4;
-    TipsSessionKeyRespMsg sessionKeyRespMsg = 5;
+    Round1RespMsg1of2 round1RespMsg1of2 = 1;
+    Round1RespMsg2of2 round1RespMsg2of2 = 2;
+    Round2RespMsg     round2RespMsg     = 3;
+    KeyConfirmRespMsg keyConfirmRespMsg = 4;
+    SessionKeyRespMsg sessionKeyRespMsg = 5;
   }
 
   uint32 messageCounter = 6;
