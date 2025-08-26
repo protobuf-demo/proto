@@ -19,3 +19,32 @@ message Message {
     optional int32 temperature = 6;
     optional int32 timestamp = 7;
 }
+
+message Message_V2 {
+    required int32 id = 1;
+    required int32 battery = 2;
+    required int32 glucose = 3;
+
+    enum GlucoseTrend_T {
+        GLUCOSE_TREND_FAST_DOWN = 0;
+        GLUCOSE_TREND_DOWN = 1;
+        GLUCOSE_TREND_STABLE = 2;
+        GLUCOSE_TREND_UP = 3;
+        GLUCOSE_TREND_FAST_UP = 4;
+    }
+
+    optional GlucoseTrend_T glucosetrend = 4 [default = GLUCOSE_TREND_STABLE];
+    required int32 insulin = 5;
+    optional int32 temperature = 6;
+    optional int32 timestamp = 7;
+    required int32 aging = 8;
+    required int32 failcode = 9;
+    required int32 pumpStateOfHealth = 10;
+}
+
+message Wrapper{
+    oneof payload{
+        Message msg_v1 = 1;
+        Message_V2 msg_v2 = 2;
+    }
+}
